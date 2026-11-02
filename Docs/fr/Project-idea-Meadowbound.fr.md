@@ -2,10 +2,6 @@
 
 Projet C# / MonoGame · Document de cadrage · Nom du jeu : Meadowbound · Version 1.0
 
-L’objectif est de transformer ta carte mentale en un document de projet professionnel, structuré autour de trois axes : les besoins, la solution proposée et la documentation.
-
-Le document doit pouvoir servir à la fois de base de développement, de support de présentation et de référence pour suivre l'avancement du projet. Il distingue clairement la vision finale du jeu, le périmètre réaliste de la première version (MVP) et les évolutions futures.
-
 # 1. Nécessaire — Analyse du besoin
 
 ## 1.1. Situation initiale
@@ -171,9 +167,7 @@ MVP : intégré à l'écran principal.
 
 ### Maquettes papier à réaliser
 
-Pour chaque écran, dessiner les zones principales, indiquer les actions disponibles et noter les informations visibles. Il faut également préciser les commandes clavier et souris, les états possibles des boutons et les transitions entre les écrans.
 
-Les maquettes ne doivent pas nécessairement être belles : elles doivent être suffisamment claires pour servir de référence pendant le développement.
 
 ## 2.3. Choix technologiques et techniques
 
@@ -441,59 +435,3 @@ Le projet sera évalué à partir de résultats observables plutôt que du seul 
 - Qualité : les anomalies bloquantes sont corrigées et les cas critiques sont testés.
 - Documentation : les choix, les sources, les tests et l'utilisation de l'IA sont explicités.
 - Respect du périmètre : les fonctionnalités supplémentaires ne compromettent pas l'achèvement du MVP.
-
-## 6. Prochaine action recommandée
-
-Avant de commencer à coder, il reste à préciser le contexte du projet pour adapter le planning, les livrables et le niveau de détail de la documentation.
-
-## Personnaliser le dossier de projet
-
-Ces informations permettront d'adapter la version définitive du cahier des charges.
-
-1\. Dans quel cadre réalises-tu ce projet ?
-
-Projet personnel
-
-Projet scolaire ou de formation
-
-Projet professionnel
-
-2\. Qui développe le jeu ?
-
-Moi seul(e)
-
-Petite équipe de 2 à 4 personnes
-
-Équipe plus importante
-
-3\. Quel est ton niveau en C# et MonoGame ?
-
-Débutant
-
-Intermédiaire
-
-Avancé
-
-4\. Quel délai envisages-tu ?
-
-Moins de 3 mois
-
-3 à 6 mois
-
-6 à 12 mois
-
-Plus de 12 mois
-
-5\. Quel livrable veux-tu préparer en priorité ?
-
-Cahier des charges professionnel complet
-
-Architecture technique et plan de code C#
-
-Planning détaillé avec tâches et estimations
-
-Dossier scolaire avec méthodologie et bibliographie
-
-Adapter le dossier
-
-Le principe directeur reste le même : construire d'abord un petit jeu agricole entièrement fonctionnel, puis développer progressivement le monde ouvert et ses systèmes avancés.
