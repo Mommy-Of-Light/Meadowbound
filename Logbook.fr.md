@@ -430,8 +430,6 @@ Cette interface est prévue pour les interactions avec les personnages non joueu
 
 Cette fonctionnalité n'est pas indispensable au MVP et pourra être développée dans une version ultérieure.
 
-Les illustrations ci-dessus sont des références visuelles indicatives et non les fichiers originaux des maquettes. Les maquettes de référence sont conservées dans le dossier Models du projet.
-
 #### 3.4. Analyse fonctionnelle des interfaces
 
 L'étude des maquettes a permis d'identifier plusieurs besoins fonctionnels qui devront être pris en compte pendant le développement.
