@@ -1,8 +1,8 @@
-# Journal de bord — Projet Meadowbound
+# Journal de bord - Projet Meadowbound
 
 Développement d'un jeu de farming en monde ouvert 2.5D avec C# et MonoGame
 
-## Jour 1 — Analyse du besoin et définition du projet
+## Jour 1 - Analyse du besoin et définition du projet
 
 **Temps de travail**: 
 180 min / 3 heures
@@ -70,7 +70,7 @@ Les choix effectués devront être confirmés progressivement par des essais tec
 - Transformer les fonctionnalités en tâches distinctes.
 - Commencer la planification détaillée.
 
-## Jour 2 — Méthodologie, environnement technique et planification
+## Jour 2 - Méthodologie, environnement technique et planification
 
 **Temps de travail**:
 180 min / 3 heures
@@ -142,3 +142,176 @@ La prochaine étape consistera à passer de la préparation à la réalisation c
 - Réaliser une première carte de test.
 - Vérifier l'affichage et le fonctionnement général du projet.
 - Mettre à jour le backlog et le journal de bord après chaque session.
+
+
+## Jour 3 - Approfondissement des choix techniques et planification des fonctionnalités — Meadowbound
+
+**Temps de travail**:
+180 min / 3 heures
+
+**Objectif**:
+Approfondissement / JSON et planning
+
+### 1. Objectif de la journée
+
+Cette troisième journée a été consacrée à l'approfondissement de certains éléments techniques et organisationnels qui n'avaient pas été entièrement définis lors de la journée précédente.
+
+Le premier objectif était de préciser l'utilisation du format JSON pour le stockage des données du jeu. Il s'agissait notamment d'identifier les différentes catégories de données, de proposer une organisation des fichiers et de réfléchir à leur utilisation dans le fonctionnement de Meadowbound.
+
+Le deuxième objectif était de compléter la planification des fonctionnalités afin de disposer d'une meilleure vision des étapes de développement, de leurs dépendances et de leur ordre de réalisation.
+
+### 2. Déroulement de la journée
+
+| Activité                          | Travail effectué                                                                         | Durée   |
+| --------------------------------- | ---------------------------------------------------------------------------------------- | ------- |
+| Approfondissement du JSON         | Réflexion sur les structures de données et les différents fichiers nécessaires.          | 45 min  |
+| Organisation des données          | Séparation des données du monde, du joueur, des paramètres et des ressources.            | 25 min  |
+| Analyse technique                 | Identification des limites, des risques et des améliorations possibles du stockage JSON. | 25 min  |
+| Planification des fonctionnalités | Définition des grandes étapes et de leur ordre de réalisation.                           | 45 min  |
+| Organisation des tâches           | Réflexion sur la répartition des fonctionnalités en tâches GitHub.                       | 20 min  |
+| Documentation                     | Rédaction et mise en forme des éléments étudiés.                                         | 20 min  |
+| Total                             |                                                                                          | 180 min |
+
+### 3. Travaux réalisés
+
+#### 3.1. Approfondissement du stockage des données avec JSON
+
+Le format JSON a été étudié plus précisément afin de déterminer comment organiser les données nécessaires au fonctionnement du jeu.
+
+Plusieurs fichiers ont été envisagés, chacun ayant une responsabilité particulière.
+
+Les structures proposées sont les suivantes :
+
+| Fichier                | Utilisation prévue                                                        |
+| ---------------------- | ------------------------------------------------------------------------- |
+| `world.json`           | Stockage des informations relatives au monde et à la carte.               |
+| `players.json`         | Stockage des informations du joueur, de sa position et de son inventaire. |
+| `settings.json`        | Stockage des paramètres de configuration du jeu.                          |
+| `achievements.json`    | Définition des succès disponibles.                                        |
+| `resources-types.json` | Définition des différents types de ressources.                            |
+| `textures.json`        | Association entre les identifiants des textures et leurs chemins d'accès. |
+
+Des exemples de structures JSON ont été préparés pour illustrer l'organisation envisagée. Ils constituent une première proposition et pourront évoluer en fonction des besoins rencontrés pendant le développement.
+
+Une distinction devra notamment être conservée entre les données statiques, qui définissent les éléments du jeu, et les données dynamiques, qui évoluent pendant une partie.
+
+Par exemple, les types de ressources et les définitions des cultures pourront être considérés comme des données statiques, tandis que les quantités présentes dans l'inventaire et l'état des parcelles devront être enregistrés dans la sauvegarde du joueur.
+
+#### 3.2. Organisation et limites du stockage JSON
+
+L'utilisation de JSON présente plusieurs avantages pour le projet :
+
+- Les fichiers sont lisibles et facilement modifiables.
+- Les données peuvent être organisées sous forme d'objets et de tableaux.
+- Le format est compatible avec C#.
+- Il facilite le débogage et l'inspection des sauvegardes.
+- Il permet de séparer les données du code source.
+
+Cependant, plusieurs précautions devront être prises.
+
+Il faudra notamment prévoir une gestion des erreurs lorsqu'un fichier est absent, illisible ou contient des données incorrectes. La compatibilité des sauvegardes devra également être prise en compte si la structure des données évolue pendant le développement.
+
+Pour limiter les risques, il sera préférable de prévoir une version du format de sauvegarde et de vérifier les données lors de leur chargement.
+
+Enfin, les chemins des textures devront être centralisés et associés à des identifiants cohérents afin d'éviter de disperser les chemins d'accès dans le code.
+
+#### 3.3. Approfondissement de la planification
+
+La planification des fonctionnalités a été identifiée comme un élément à compléter pour mieux organiser le développement.
+
+L'objectif est de répartir les fonctionnalités du MVP en plusieurs étapes successives, en tenant compte de leurs dépendances techniques.
+
+La priorité sera donnée aux fondations du jeu : initialisation du projet, affichage de la carte, déplacements, caméra et collisions.
+
+Les systèmes agricoles et les fonctionnalités de gestion seront ensuite développés progressivement.
+
+Une première proposition de planning a été préparée pour servir de base au document de planification.
+
+### 4. Première proposition de planning des fonctionnalités
+
+Le planning a été organisé par grandes étapes de développement. Chaque étape doit aboutir à un résultat concret et vérifiable.
+
+Les fonctionnalités seront développées progressivement, en privilégiant les dépendances techniques : il est préférable de disposer d'une carte fonctionnelle avant de développer les interactions avec celle-ci.
+
+| Période    | Fonctionnalités prévues                                                                                  | Résultat attendu                                                 |
+| ---------- | -------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| Semaine 1  | Initialisation MonoGame, configuration du projet, organisation du code et affichage d'une carte de test. | Première version exécutable avec une carte.                      |
+| Semaine 2  | Création du joueur, gestion des entrées et déplacements.                                                 | Personnage contrôlable sur la carte.                             |
+| Semaine 3  | Caméra 2.5D, collisions et gestion de la profondeur d'affichage.                                         | Déplacements cohérents dans l'environnement.                     |
+| Semaine 4  | Interactions avec les éléments du monde et gestion des parcelles.                                        | Possibilité d'interagir avec l'environnement.                    |
+| Semaine 5  | Préparation du sol, plantation et gestion des graines.                                                   | Première mécanique agricole fonctionnelle.                       |
+| Semaine 6  | Croissance des cultures et récolte.                                                                      | Cycle agricole fonctionnel.                                      |
+| Semaine 7  | Inventaire et gestion des ressources.                                                                    | Stockage et consultation des objets récoltés.                    |
+| Semaine 8  | Sauvegarde et chargement des données avec JSON.                                                          | Conservation de la progression.                                  |
+| Semaine 9  | Interface utilisateur et amélioration de l'expérience de jeu.                                            | Interface permettant d'utiliser les fonctionnalités principales. |
+| Semaine 10 | Tests, corrections et stabilisation du MVP.                                                              | Première version jouable et testée.                              |
+
+Estimation prévisionnelle : 10 semaines. Cette durée reste indicative et devra être ajustée en fonction du temps disponible, des difficultés techniques et des résultats obtenus. Chaque journée de travail correspond à une session de 180 minutes.
+
+#### 4.1. Organisation des priorités
+
+Les fonctionnalités seront développées selon trois niveaux de priorité :
+
+- P0 — Indispensable : fonctionnalités nécessaires à la réalisation du MVP.
+- P1 — Importante : améliorations utiles pouvant être intégrées après validation des systèmes essentiels.
+- P2 — Secondaire : fonctionnalités supplémentaires pouvant être reportées à des versions ultérieures.
+
+Cette classification permettra de conserver un périmètre maîtrisé et d'éviter que des fonctionnalités secondaires retardent la réalisation du MVP.
+
+#### 4.2. Dépendances entre les fonctionnalités
+
+Certaines fonctionnalités nécessitent que d'autres systèmes soient déjà opérationnels.
+
+Par exemple :
+
+- Les déplacements nécessitent une carte et un système de gestion des entrées.
+- Les collisions nécessitent une représentation des obstacles.
+- Les interactions agricoles nécessitent un système de parcelles.
+- La plantation nécessite une gestion des graines.
+- La récolte nécessite un système de croissance.
+- L'inventaire nécessite une gestion des ressources.
+- Les sauvegardes nécessitent une structure de données stable.
+
+Ces dépendances devront être prises en compte lors de la création des issues GitHub et de la répartition du travail.
+
+### 5. Points de vigilance
+
+Plusieurs éléments devront être surveillés pendant le développement.
+
+Stockage des données : il faudra éviter de mélanger les paramètres du jeu, les définitions des ressources et les données propres à une partie sauvegardée.
+
+Évolution des fichiers JSON : les structures pourront changer au cours du développement. Il faudra donc prévoir une gestion des versions des sauvegardes.
+
+Complexité du projet : certaines fonctionnalités peuvent nécessiter davantage de temps que prévu. Le planning devra rester adaptable.
+
+Dépendances techniques : le développement des fonctionnalités devra respecter un ordre logique pour éviter de devoir modifier plusieurs systèmes déjà réalisés.
+
+Périmètre du MVP : les fonctionnalités secondaires ne devront pas prendre le dessus sur les éléments indispensables à la première version jouable.
+
+### 6. Bilan de la journée
+
+Cette troisième journée a permis d'approfondir les choix concernant le stockage des données et de proposer une organisation plus précise des fichiers JSON.
+
+La séparation des données du monde, du joueur, des paramètres et des ressources constitue une première base pour la future architecture du jeu.
+
+Le travail sur la planification a également permis de répartir les fonctionnalités du MVP en grandes étapes de développement. Un premier calendrier prévisionnel de dix semaines a été proposé, avec des objectifs concrets pour chaque période.
+
+Ces éléments permettront de mieux organiser les prochaines tâches et de préparer leur intégration dans le backlog GitHub.
+
+### 7. Prochaines étapes
+
+- Finaliser la structure des fichiers JSON.
+- Définir les classes C# correspondant aux principales données.
+- Compléter le fichier de planification.
+- Créer les issues GitHub correspondant aux fonctionnalités prioritaires.
+- Vérifier et préparer l'environnement MonoGame.
+- Commencer l'initialisation technique du jeu.
+- Réaliser le premier affichage de la carte.
+
+## Synthèse du projet
+| Journée | Thème principal                                 | Temps         |
+| ------- | ----------------------------------------------- | ------------- |
+| Jour 1  | Analyse du besoin et définition du projet       | 180 min       |
+| Jour 2  | Méthodologie, environnement et choix techniques | 180 min       |
+| Jour 3  | Approfondissement JSON et planification         | 180 min       |
+| Total   | Préparation du projet                           | 540 min (9 h) |
