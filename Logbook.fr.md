@@ -70,6 +70,12 @@ Les choix effectués devront être confirmés progressivement par des essais tec
 - Transformer les fonctionnalités en tâches distinctes.
 - Commencer la planification détaillée.
 
+### Synthèse du projet
+| Journée | Thème principal                           | Temps         |
+| ------- | ----------------------------------------- | ------------- |
+| Jour 1  | Analyse du besoin et définition du projet | 180 min       |
+| Total   | Préparation du projet                     | 180 min (3 h) |
+
 ## Jour 2 - Méthodologie, environnement technique et planification
 
 **Temps de travail**:
@@ -143,6 +149,12 @@ La prochaine étape consistera à passer de la préparation à la réalisation c
 - Vérifier l'affichage et le fonctionnement général du projet.
 - Mettre à jour le backlog et le journal de bord après chaque session.
 
+### Synthèse du projet
+| Journée | Thème principal                                 | Temps         |
+| ------- | ----------------------------------------------- | ------------- |
+| Jour 1  | Analyse du besoin et définition du projet       | 180 min       |
+| Jour 2  | Méthodologie, environnement et choix techniques | 180 min       |
+| Total   | Préparation du projet                           | 360 min (6 h) |
 
 ## Jour 3 - Approfondissement des choix techniques et planification des fonctionnalités — Meadowbound
 
@@ -308,10 +320,180 @@ Ces éléments permettront de mieux organiser les prochaines tâches et de prép
 - Commencer l'initialisation technique du jeu.
 - Réaliser le premier affichage de la carte.
 
-## Synthèse du projet
+### Synthèse du projet
 | Journée | Thème principal                                 | Temps         |
 | ------- | ----------------------------------------------- | ------------- |
 | Jour 1  | Analyse du besoin et définition du projet       | 180 min       |
 | Jour 2  | Méthodologie, environnement et choix techniques | 180 min       |
 | Jour 3  | Approfondissement JSON et planification         | 180 min       |
 | Total   | Préparation du projet                           | 540 min (9 h) |
+
+## Jour 4 - Recherches complémentaires et conception prévisionnelle des interfaces — Meadowbound
+
+**Temps de travail**
+180 min / 3 heures
+
+**Objectif**
+Conception / Documentation et maquettes
+
+### 1. Objectif de la journée
+
+Cette quatrième journée a été consacrée à la consolidation de la documentation technique et à la préparation de la conception visuelle de Meadowbound.
+
+Les recherches précédentes concernant la méthodologie, l'environnement de développement et les choix techniques ont été reprises afin de vérifier que les informations nécessaires à la compréhension du projet étaient présentes et correctement documentées.
+
+Une attention particulière a également été portée aux maquettes prévisionnelles des interfaces. L'objectif était d'identifier les principaux écrans du jeu et de définir une première organisation visuelle des éléments qui seront accessibles au joueur.
+
+### 2. Déroulement de la journée
+
+| Activité                        | Travail effectué                                                                     | Durée   |
+| ------------------------------- | ------------------------------------------------------------------------------------ | ------- |
+| Vérification de la méthodologie | Relecture et vérification de la méthodologie et de sa justification.                 | 10 min  |
+| Vérification de l'environnement | Vérification des choix concernant C#, MonoGame, Git, JSON et l'organisation du code. | 15 min  |
+| Organisation documentaire       | Vérification des liens internes et de la cohérence entre les différents documents.   | 10 min  |
+| Conception des maquettes        | Préparation et étude des différents écrans du jeu.                                   | 115 min |
+| Analyse des interfaces          | Identification des éléments fonctionnels et des interactions nécessaires.            | 20 min  |
+| Documentation et bilan          | Organisation des maquettes et rédaction du journal de bord.                          | 10 min  |
+| Total                           |                                                                                      | 180 min |
+
+### 3. Travaux réalisés
+
+#### 3.1. Vérification de la méthodologie de projet
+
+La méthodologie définie lors de la deuxième journée a été reprise afin de vérifier que les éléments nécessaires à la compréhension de l'organisation du développement étaient présents.
+
+Les deux approches retenues, Component-Driven Truncated Agile et Architecture-First Vertical Slice, sont documentées avec leurs principes et les raisons justifiant leur utilisation dans le cadre du projet.
+
+Les documents correspondants ont été référencés afin de faciliter leur consultation depuis la documentation principale.
+
+#### 3.2. Vérification de l'environnement de développement
+
+Les différents choix techniques ont également été repris.
+
+Les éléments suivants sont désormais regroupés dans la documentation technique :
+
+- C# : langage utilisé pour développer le jeu.
+- MonoGame : framework utilisé pour le rendu graphique, les entrées et les autres fonctionnalités nécessaires.
+- Git et GitHub : outils de suivi des versions et d'organisation du développement.
+- JSON : format envisagé pour le stockage des données et des sauvegardes.
+- Organisation du code : séparation des responsabilités en composants et systèmes distincts.
+
+Les exemples de structures JSON réalisés lors de la troisième journée ont également été référencés afin de conserver une trace des premières orientations concernant le stockage des données.
+
+Cette vérification permet de disposer d'une documentation technique regroupant les principaux choix effectués avant le début de l'implémentation.
+
+#### 3.3. Conception des maquettes prévisionnelles
+
+Un travail de conception visuelle a été réalisé afin d'anticiper l'organisation des interfaces de Meadowbound.
+
+Plusieurs écrans ont été identifiés. Ils représentent les principales situations dans lesquelles le joueur pourra interagir avec le jeu.
+
+L'objectif de ces maquettes est de disposer d'une référence visuelle avant leur intégration technique. Elles pourront évoluer au cours du développement en fonction des besoins et des contraintes rencontrées.
+
+##### Menu principal
+
+![Main menu](./Docs/Models/main_menu.png)
+
+Le menu principal constituera le point d'entrée du jeu. Il devra permettre au joueur d'accéder aux principales options, notamment le lancement d'une partie, le chargement d'une sauvegarde, les paramètres et la fermeture du jeu.
+
+##### Paramètres
+
+![Settings](./Docs/Models/settings.png)
+
+L'écran des paramètres permettra de modifier les principales options de configuration, comme le volume sonore, la musique, les commandes et les paramètres graphiques.
+
+##### Interface de jeu
+
+![Game](./Docs/Models/game_interface.png)
+
+L'interface de jeu représentera l'environnement principal dans lequel évoluera le joueur. Elle devra afficher les informations utiles sans masquer excessivement la zone de jeu.
+
+Les éléments envisagés comprennent notamment les informations du joueur, les raccourcis d'actions et l'accès aux fonctionnalités principales.
+
+##### Menu de pause
+
+![Pause](./Docs/Models/game_pause_menu.png)
+
+Le menu de pause permettra de suspendre temporairement la partie et d'accéder à différentes options, comme reprendre le jeu, consulter les paramètres ou revenir au menu principal.
+
+##### Inventaire
+
+![Inventory](./Docs/Models/inventory.png)
+
+L'inventaire permettra de consulter les ressources et les objets collectés pendant la partie. Il devra également permettre de connaître les quantités disponibles et de préparer les futures interactions avec les objets.
+
+##### Interaction avec les PNJ
+
+![NPC Interaction](./Docs/Models/npc_intreraction.png)
+
+Cette interface est prévue pour les interactions avec les personnages non joueurs. Elle pourra permettre d'afficher des dialogues, des informations et éventuellement des choix de réponse.
+
+Cette fonctionnalité n'est pas indispensable au MVP et pourra être développée dans une version ultérieure.
+
+Les illustrations ci-dessus sont des références visuelles indicatives et non les fichiers originaux des maquettes. Les maquettes de référence sont conservées dans le dossier Models du projet.
+
+#### 3.4. Analyse fonctionnelle des interfaces
+
+L'étude des maquettes a permis d'identifier plusieurs besoins fonctionnels qui devront être pris en compte pendant le développement.
+
+| Interface                | Fonction principale                               | Priorité envisagée |
+| ------------------------ | ------------------------------------------------- | ------------------ |
+| Menu principal           | Navigation entre les différentes options du jeu.  | P0                 |
+| Paramètres               | Configuration des options principales.            | P1                 |
+| Interface de jeu         | Affichage du monde et des informations du joueur. | P0                 |
+| Menu de pause            | Suspension et reprise de la partie.               | P1                 |
+| Inventaire               | Consultation et gestion des ressources.           | P0                 |
+| Interaction avec les PNJ | Affichage des dialogues et interactions.          | P2                 |
+
+Ces interfaces devront être développées progressivement. Leur organisation devra rester cohérente avec l'architecture générale du jeu et permettre de séparer l'affichage graphique de la logique fonctionnelle.
+
+### 4. Résultats obtenus
+
+À l'issue de cette journée, les éléments suivants ont été préparés :
+
+- Vérification de la documentation méthodologique.
+- Vérification des principaux choix techniques.
+- Référencement des exemples de structures JSON.
+- Organisation des liens internes entre les documents.
+- Identification des six interfaces principales.
+- Première définition des besoins fonctionnels associés aux interfaces.
+- Classement prévisionnel des interfaces selon leur priorité.
+- Préparation des bases de la future implémentation graphique.
+
+### 5. Difficultés et points de vigilance
+
+La principale difficulté concerne la cohérence entre les maquettes et les fonctionnalités réellement prévues dans le MVP.
+
+Il faudra éviter de développer des interfaces dont les fonctionnalités ne sont pas encore disponibles. L'interface graphique devra évoluer en même temps que les systèmes du jeu.
+
+Un autre point de vigilance concerne l'organisation de l'affichage en 2.5D. Les interfaces devront rester lisibles et indépendantes de la caméra du monde de jeu.
+
+Enfin, les maquettes représentent une proposition de conception et ne constituent pas une version définitive. Certains éléments pourront être modifiés lorsque les premières interfaces seront intégrées dans MonoGame.
+
+### 6. Bilan de la journée
+
+Cette quatrième journée a permis de consolider les éléments documentaires préparés précédemment et de compléter la phase de conception avec une première représentation des interfaces de Meadowbound.
+
+Les choix méthodologiques et techniques sont désormais regroupés dans la documentation, tandis que les principales interfaces ont été identifiées et associées à leurs fonctions.
+
+Le projet dispose ainsi d'une base documentaire plus complète pour commencer son développement. Les prochaines étapes pourront se concentrer davantage sur la préparation concrète de l'environnement de travail et sur l'implémentation des premiers systèmes.
+
+### 7. Prochaines étapes
+
+- Finaliser la documentation technique.
+- Vérifier la cohérence entre le MVP et les maquettes.
+- Finaliser le planning de développement.
+- Organiser les fonctionnalités sous forme d'issues GitHub.
+- Préparer l'architecture initiale du projet MonoGame.
+- Commencer l'implémentation du menu principal ou de l'affichage de la carte.
+- Vérifier le fonctionnement de la première version exécutable.
+
+## Synthèse des quatre premières journées
+
+| Journée | Travail principal                                    | Durée |
+| ------- | ---------------------------------------------------- | ----- |
+| Jour 1  | Analyse du besoin et définition du projet.           | 3 h   |
+| Jour 2  | Méthodologie et choix techniques.                    | 3 h   |
+| Jour 3  | Approfondissement du stockage JSON et planification. | 3 h   |
+| Jour 4  | Consolidation documentaire et maquettes.             | 3 h   |
+| Total   | Phase préparatoire                                   | 12 h  |
