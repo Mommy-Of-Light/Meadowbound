@@ -70,12 +70,6 @@ Les choix effectués devront être confirmés progressivement par des essais tec
 - Transformer les fonctionnalités en tâches distinctes.
 - Commencer la planification détaillée.
 
-### Synthèse du projet
-| Journée | Thème principal                           | Temps         |
-| ------- | ----------------------------------------- | ------------- |
-| Jour 1  | Analyse du besoin et définition du projet | 180 min       |
-| Total   | Préparation du projet                     | 180 min (3 h) |
-
 ## Jour 2 - Méthodologie, environnement technique et planification
 
 **Temps de travail**:
@@ -148,13 +142,6 @@ La prochaine étape consistera à passer de la préparation à la réalisation c
 - Réaliser une première carte de test.
 - Vérifier l'affichage et le fonctionnement général du projet.
 - Mettre à jour le backlog et le journal de bord après chaque session.
-
-### Synthèse du projet
-| Journée | Thème principal                                 | Temps         |
-| ------- | ----------------------------------------------- | ------------- |
-| Jour 1  | Analyse du besoin et définition du projet       | 180 min       |
-| Jour 2  | Méthodologie, environnement et choix techniques | 180 min       |
-| Total   | Préparation du projet                           | 360 min (6 h) |
 
 ## Jour 3 - Approfondissement des choix techniques et planification des fonctionnalités — Meadowbound
 
@@ -320,20 +307,12 @@ Ces éléments permettront de mieux organiser les prochaines tâches et de prép
 - Commencer l'initialisation technique du jeu.
 - Réaliser le premier affichage de la carte.
 
-### Synthèse du projet
-| Journée | Thème principal                                 | Temps         |
-| ------- | ----------------------------------------------- | ------------- |
-| Jour 1  | Analyse du besoin et définition du projet       | 180 min       |
-| Jour 2  | Méthodologie, environnement et choix techniques | 180 min       |
-| Jour 3  | Approfondissement JSON et planification         | 180 min       |
-| Total   | Préparation du projet                           | 540 min (9 h) |
-
 ## Jour 4 - Recherches complémentaires et conception prévisionnelle des interfaces — Meadowbound
 
-**Temps de travail**
+**Temps de travail**:
 180 min / 3 heures
 
-**Objectif**
+**Objectif**:
 Conception / Documentation et maquettes
 
 ### 1. Objectif de la journée
@@ -486,12 +465,237 @@ Le projet dispose ainsi d'une base documentaire plus complète pour commencer so
 - Commencer l'implémentation du menu principal ou de l'affichage de la carte.
 - Vérifier le fonctionnement de la première version exécutable.
 
-## Synthèse des quatre premières journées
+## Jour 5 - Initialisation du projet et création de l'environnement MonoGame — Meadowbound
 
-| Journée | Travail principal                                    | Durée |
-| ------- | ---------------------------------------------------- | ----- |
-| Jour 1  | Analyse du besoin et définition du projet.           | 3 h   |
-| Jour 2  | Méthodologie et choix techniques.                    | 3 h   |
-| Jour 3  | Approfondissement du stockage JSON et planification. | 3 h   |
-| Jour 4  | Consolidation documentaire et maquettes.             | 3 h   |
-| Total   | Phase préparatoire                                   | 12 h  |
+**Temps de travail**:
+180 min / 3 heures
+
+**Issues concernées**:
+#9 et #10 / Architecture et MonoGame
+
+### 1. Objectif de la journée
+
+Cette cinquième journée marque le début de la réalisation technique de Meadowbound.
+
+Après les différentes étapes de préparation, l'objectif était de commencer à mettre en place les fondations du projet. Le travail a principalement porté sur l'initialisation de son architecture et la création du projet MonoGame en C#.
+
+Il s'agissait de disposer d'une première base de développement sur laquelle les différents systèmes du jeu pourront être construits progressivement.
+
+### 2. Déroulement de la journée
+
+| Activité                        | Travail effectué                                                                          | Durée   |
+| ------------------------------- | ----------------------------------------------------------------------------------------- | ------- |
+| Initialisation du projet        | Préparation de la base du projet et de son environnement de développement.                | 35 min  |
+| Configuration MonoGame          | Création et configuration du projet C# avec MonoGame.                                     | 45 min  |
+| Première organisation technique | Réflexion sur la structure générale et les éléments nécessaires au fonctionnement du jeu. | 35 min  |
+| Vérifications initiales         | Contrôle de la configuration et des dépendances du projet.                                | 30 min  |
+| Documentation                   | Mise à jour des informations techniques et du suivi des tâches.                           | 15 min  |
+| Bilan                           | Synthèse des travaux et préparation de la suite.                                          | 20 min  |
+| Total                           |                                                                                           | 180 min |
+
+### 3. Travaux réalisés
+
+#### 3.1. Initialisation du projet et de son architecture
+
+La première tâche a consisté à commencer l'initialisation de Meadowbound en préparant une base technique destinée à accueillir les différents systèmes du jeu.
+
+L'organisation générale a été pensée pour respecter les principes définis lors des journées précédentes, notamment la séparation des responsabilités et le développement par composants.
+
+L'objectif est d'éviter de regrouper toute la logique du jeu dans une seule classe et de conserver une architecture suffisamment évolutive pour intégrer les fonctionnalités futures.
+
+Issue concernée : [#1 — Initialiser le projet et son architecture](https://github.com/Mommy-Of-Light/Meadowbound/issues/1).
+
+#### 3.2. Création et configuration du projet MonoGame en C\#
+
+Le projet MonoGame a ensuite été préparé avec le langage C#.
+
+Cette étape constitue la base de l'environnement d'exécution du jeu. MonoGame fournira notamment les mécanismes nécessaires à l'initialisation du jeu, au rendu graphique, à la gestion des entrées et au chargement des ressources.
+
+Une attention particulière a été portée à la configuration initiale afin de disposer d'un environnement adapté aux développements suivants.
+
+Issue concernée : [#9 — Créer et configurer le projet MonoGame en C#](https://github.com/Mommy-Of-Light/Meadowbound/issues/9).
+
+#### 3.3. Organisation générale de la base technique
+
+Une première réflexion a également été menée sur la manière dont les futurs systèmes seront intégrés au projet.
+
+Les principaux éléments à prévoir sont notamment :
+
+- La gestion générale du jeu.
+- Le rendu graphique.
+- La gestion des entrées du joueur.
+- Le chargement des ressources.
+- La représentation du monde.
+- La gestion du joueur et de ses interactions.
+
+Cette réflexion servira de base au travail d'organisation plus détaillé prévu lors de la prochaine journée.
+
+Issue concernée : [#10 — Définir l'organisation des dossiers et namespaces](https://github.com/Mommy-Of-Light/Meadowbound/issues/10).
+
+### 4. Résultats obtenus
+
+- Première initialisation de la base du projet Meadowbound.
+- Préparation de l'environnement MonoGame.
+- Création et configuration du projet C#.
+- Première réflexion sur l'architecture générale.
+- Identification des principaux systèmes à intégrer.
+- Préparation de la suite de l'organisation technique.
+
+### 5. Difficultés et points de vigilance
+
+La principale difficulté de cette étape réside dans la définition d'une architecture suffisamment claire sans anticiper inutilement toutes les fonctionnalités futures.
+
+Il faudra notamment éviter de créer des dépendances trop importantes entre les différents systèmes.
+
+La configuration de MonoGame devra également être vérifiée régulièrement afin de détecter rapidement les éventuels problèmes liés aux dépendances, à la compilation ou à l'exécution.
+
+### 6. Bilan de la journée
+
+Cette cinquième journée a permis d'entamer concrètement le développement de Meadowbound.
+
+Les premières fondations techniques ont été préparées et le projet MonoGame a été créé et configuré. Le travail réalisé constitue le point de départ de l'organisation interne du code.
+
+La prochaine étape consistera à préciser cette organisation en définissant les dossiers, les namespaces et les responsabilités des principaux composants.
+
+### 7. Prochaines étapes
+
+- Définir l'organisation des dossiers et des namespaces.
+- Identifier les responsabilités des principaux composants.
+- Préparer le système de chargement des ressources.
+- Vérifier la compilation et le démarrage du projet.
+
+## Journal de bord — Jour 6
+
+Organisation de l'architecture, composants et chargement des ressources — Meadowbound
+
+**Temps de travail**:
+180 min / 3 heures
+
+**Issues concernées**:
+#10 à #13 / Architecture et vérifications
+
+### 1. Objectif de la journée
+
+Cette sixième journée a été consacrée à la structuration interne du projet et à la préparation des principaux mécanismes techniques nécessaires à son fonctionnement.
+
+Après la création du projet MonoGame lors de la journée précédente, l'objectif était de définir une organisation claire du code, d'identifier les responsabilités des principaux composants et de préparer le chargement des ressources du jeu.
+
+Une dernière étape devait permettre de vérifier que le projet pouvait être compilé et démarré correctement.
+
+### 2. Déroulement de la journée
+
+| Activité                       | Travail effectué                                                     | Durée   |
+| ------------------------------ | -------------------------------------------------------------------- | ------- |
+| Organisation des dossiers      | Définition de la structure des répertoires et des namespaces.        | 35 min  |
+| Responsabilités des composants | Identification des rôles des principaux éléments de l'architecture.  | 35 min  |
+| Chargement des ressources      | Préparation du mécanisme de gestion et de chargement des ressources. | 40 min  |
+| Compilation et démarrage       | Vérification du fonctionnement général du projet.                    | 30 min  |
+| Documentation                  | Mise à jour de la documentation technique et des issues.             | 20 min  |
+| Bilan                          | Synthèse et préparation de la prochaine étape.                       | 20 min  |
+| Total                          |                                                                      | 180 min |
+
+### 3. Travaux réalisés
+
+#### 3.1. Organisation des dossiers et des namespaces
+
+La première partie du travail a porté sur l'organisation interne du code source.
+
+L'objectif était de séparer les différentes catégories de fonctionnalités afin de faciliter la navigation dans le projet et de limiter le mélange des responsabilités.
+
+Une organisation par domaines fonctionnels a été envisagée, avec notamment des espaces dédiés au monde, au joueur, aux interfaces, aux ressources et aux systèmes généraux du jeu.
+
+Les namespaces devront suivre cette organisation afin de faciliter l'identification des classes et de leurs rôles.
+
+Issue concernée : [#10 — Définir l'organisation des dossiers et namespaces](https://github.com/Mommy-Of-Light/Meadowbound/issues/10?utm_source=chatgpt.com).
+
+#### 3.2. Définition des responsabilités des principaux composants
+
+La deuxième partie a consisté à identifier les responsabilités des principaux composants de l'architecture.
+
+Cette séparation doit permettre de limiter les dépendances entre les systèmes et de faciliter les évolutions futures.
+
+Les principaux éléments identifiés sont les suivants :
+
+| Composant    | Responsabilité envisagée                       |
+| ------------ | ---------------------------------------------- |
+| Game         | Gestion du cycle de vie général du jeu.        |
+| Renderer     | Affichage des éléments graphiques.             |
+| InputManager | Gestion des entrées du joueur.                 |
+| AssetManager | Chargement et accès aux ressources.            |
+| World        | Représentation et gestion du monde.            |
+| Player       | Données et comportements du joueur.            |
+| Camera       | Gestion du point de vue et du suivi du joueur. |
+| UI           | Gestion des interfaces utilisateur.            |
+
+Cette répartition constitue une première proposition d'organisation. Les responsabilités exactes seront précisées au fur et à mesure de l'implémentation.
+
+Issue concernée : [#11 — Définir les responsabilités des principaux composants](https://github.com/Mommy-Of-Light/Meadowbound/issues/11?utm_source=chatgpt.com).
+
+#### 3.3. Préparation du chargement des ressources du jeu
+
+Le travail s'est ensuite concentré sur la gestion des ressources nécessaires au fonctionnement du jeu.
+
+Les ressources concernées comprennent notamment :
+
+- Les textures des éléments de la carte.
+- Les textures du personnage.
+- Les éléments graphiques de l'interface.
+- Les ressources sonores.
+- Les autres fichiers nécessaires à l'affichage du jeu.
+
+L'objectif est de centraliser leur chargement afin d'éviter que chaque système gère individuellement ses propres fichiers.
+
+Cette approche permettra également de faciliter l'évolution du contenu graphique et d'assurer une meilleure organisation des ressources.
+
+Issue concernée : [#12 — Configurer le chargement des ressources du jeu](https://github.com/Mommy-Of-Light/Meadowbound/issues/12?utm_source=chatgpt.com).
+
+#### 3.4. Vérification de la compilation et du démarrage
+
+La dernière partie du travail a été consacrée à la vérification du fonctionnement général du projet.
+
+L'objectif était de s'assurer que la configuration réalisée lors des deux journées précédentes permettait de compiler et de lancer correctement l'application.
+
+Cette vérification constitue une étape importante avant de commencer le développement des fonctionnalités visibles du jeu.
+
+Elle permettra également de disposer d'une base exécutable sur laquelle les futurs systèmes pourront être intégrés progressivement.
+
+Issue concernée : [#13 — Vérifier que le projet compile et démarre correctement](https://github.com/Mommy-Of-Light/Meadowbound/issues/13?utm_source=chatgpt.com).
+
+### 4. Résultats obtenus
+
+- Définition de l'organisation des dossiers et des namespaces.
+- Identification des responsabilités des principaux composants.
+- Préparation du système de chargement des ressources.
+- Vérification de la compilation du projet.
+- Vérification du démarrage de l'application.
+- Mise à jour de la documentation technique.
+- Avancement des issues correspondant à l'architecture initiale.
+
+### 5. Difficultés et points de vigilance
+
+L'un des principaux enjeux de cette journée concerne la répartition des responsabilités entre les composants.
+
+Une mauvaise séparation pourrait entraîner des dépendances trop importantes et rendre les modifications futures plus difficiles.
+
+La gestion des ressources devra également être pensée pour éviter les chargements inutiles et faciliter leur réutilisation par les différents systèmes.
+
+Enfin, la compilation et le démarrage du projet constituent uniquement une première validation technique. Il restera nécessaire de tester séparément les futurs systèmes et leurs interactions.
+
+### 6. Bilan de la journée
+
+Cette sixième journée a permis de poursuivre la mise en place des fondations techniques de Meadowbound.
+
+L'organisation du code a été précisée, les responsabilités des principaux composants ont été identifiées et le chargement des ressources a été abordé.
+
+La vérification de la compilation et du démarrage représente une étape importante, car elle permet de s'assurer que le projet dispose d'une base technique exploitable pour la suite du développement.
+
+Les prochaines journées pourront désormais être davantage orientées vers la création des premiers éléments visibles du jeu, notamment la carte et son affichage.
+
+### 7. Prochaines étapes
+
+- Préparer les premières données de la carte.
+- Définir la représentation des cases et des éléments du monde.
+- Mettre en place le premier système de rendu de la carte.
+- Charger et afficher les premières textures.
+- Commencer à préparer la gestion des déplacements du joueur.
+- Tester progressivement les interactions entre les composants.
