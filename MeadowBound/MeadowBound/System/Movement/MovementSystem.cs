@@ -1,18 +1,33 @@
-﻿using Meadowbound.Entities;
-using Meadowbound.Core;
-using System;
+﻿using MeadowBound.Entities;
+using MeadowBound.Core;
+using WorldModel = MeadowBound.World.World;
 using Microsoft.Xna.Framework;
 
-namespace Meadowbound.Systems.Movement;
+namespace MeadowBound.Systems.Movement;
 
 public class MovementSystem
 {
-    public void Update(Entity entity, float deltaTime)
-    {
-        entity.Transform.Position += entity.Movement.Direction * entity.Movement.Speed * deltaTime;
+	private const int EntitySize = Constants.TileSize;
 
-        // Clamp the position to the screen bounds
-        entity.Transform.Position = Vector2.Clamp(entity.Transform.Position, Vector2.Zero, new Vector2(Constants.ScreenWidth - 64, Constants.ScreenHeight - 64));
+	public void Update(Entity entity, float deltaTime, WorldModel world)
+	{
+		entity.Transform.Position +=
+			entity.Movement.Direction *
+			entity.Movement.Speed *
+			deltaTime;
 
-    }
+		// Calculate world boundaries in pixels
+		float worldWidth = world.Width * Constants.TileSize;
+		float worldHeight = world.Height * Constants.TileSize;
+
+		// Clamp the entity inside the world
+		entity.Transform.Position = Vector2.Clamp(
+			entity.Transform.Position,
+			Vector2.Zero,
+			new Vector2(
+				worldWidth - EntitySize,
+				worldHeight - EntitySize
+			)
+		);
+	}
 }

@@ -1,9 +1,9 @@
-﻿using Meadowbound.Entities.Player;
+﻿using MeadowBound.Entities.Player;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 
-namespace Meadowbound.Systems.Input;
+namespace MeadowBound.Systems.Input;
 
 public class InputSystem
 {

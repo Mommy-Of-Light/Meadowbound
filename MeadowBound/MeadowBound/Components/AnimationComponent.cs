@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 
-namespace Meadowbound.Components;
+namespace MeadowBound.Components;
 
 public enum FacingDirection
 {

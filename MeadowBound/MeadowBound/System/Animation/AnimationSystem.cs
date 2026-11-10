@@ -1,9 +1,9 @@
-﻿using Meadowbound.Components;
-using Meadowbound.Entities.Player;
+﻿using MeadowBound.Components;
+using MeadowBound.Entities.Player;
 using Microsoft.Xna.Framework;
 using System;
 
-namespace Meadowbound.Systems.Animation;
+namespace MeadowBound.Systems.Animation;
 
 public class AnimationSystem
 {

@@ -1,6 +1,6 @@
-﻿using Meadowbound.Components;
+﻿using MeadowBound.Components;
 
-namespace Meadowbound.Entities;
+namespace MeadowBound.Entities;
 
 public abstract class Entity
 {

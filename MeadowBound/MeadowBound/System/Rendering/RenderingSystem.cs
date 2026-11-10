@@ -1,9 +1,10 @@
-﻿using Meadowbound.Entities.Player;
+﻿using MeadowBound.Core;
+using MeadowBound.Entities.Player;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 
-namespace Meadowbound.Systems.Rendering;
+namespace MeadowBound.Systems.Rendering;
 
 public class RenderingSystem
 {
@@ -14,7 +15,7 @@ public class RenderingSystem
         if (!sourceRectangle.HasValue)
             return;
 
-        Rectangle destinationRectangle = new Rectangle((int)MathF.Round(player.Transform.Position.X), (int)MathF.Round(player.Transform.Position.Y), 64, 64);
+        Rectangle destinationRectangle = new Rectangle((int)MathF.Round(player.Transform.Position.X), (int)MathF.Round(player.Transform.Position.Y), Constants.TileSize, Constants.TileSize);
 
         DrawLayer(spriteBatch, player.Equipment.Body, sourceRectangle.Value, destinationRectangle);
 

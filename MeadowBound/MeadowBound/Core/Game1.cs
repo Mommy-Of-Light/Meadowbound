@@ -1,31 +1,25 @@
-﻿using Meadowbound.Components;
-using Meadowbound.Entities.Player;
-using Meadowbound.Systems.Animation;
-using Meadowbound.Systems.Camera;
-using Meadowbound.Systems.Input;
-using Meadowbound.Systems.Movement;
-using Meadowbound.Systems.Rendering;
-using Meadowbound.Core;
+﻿using MeadowBound.Components;
+using MeadowBound.Core;
+using MeadowBound.Data.Models;
+using MeadowBound.Entities.Player;
+using MeadowBound.Systems.Animation;
+using MeadowBound.Systems.Assets;
+using MeadowBound.Systems.Camera;
+using MeadowBound.Systems.Input;
+using MeadowBound.Systems.Movement;
+using MeadowBound.Systems.Rendering;
+using MeadowBound.Systems.Save;
+using MeadowBound.World;
+using MeadowBound.World.Map;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Runtime.ConstrainedExecution;
 
 namespace MeadowBound.Core;
-
-public enum TextureType
-{
-    Body,
-    Pants,
-    Boots,
-    ChestArmor,
-    Gloves,
-    Helmet,
-    Hoe,
-    WateringCan
-}
 
 public class Game1 : Game
 {
@@ -40,11 +34,20 @@ public class Game1 : Game
 
     private AnimationSystem _animationSystem;
 
-    private Dictionary<TextureType, Texture2D> _textureDictionary;
-
     private SpriteFont _defaultFont;
 
     private CameraSystem _cameraSystem;
+
+    private AssetManifestLoader _assetManifestLoader;
+    private AssetManager _assetManager;
+
+    private WorldLoader _worldLoader;
+    private WorldGenerator _worldGenerator;
+
+    private SaveSystem _saveSystem;
+    private Map _map;
+
+    private WorldRenderingSystem _worldRenderingSystem;
 
     public Game1()
     {
@@ -69,7 +72,15 @@ public class Game1 : Game
         _animationSystem = new AnimationSystem();
         _cameraSystem = new CameraSystem();
 
-        _textureDictionary = new Dictionary<TextureType, Texture2D>();
+        _assetManifestLoader = new AssetManifestLoader();
+        _assetManager = new AssetManager();
+
+        _worldLoader = new WorldLoader();
+        _worldGenerator = new WorldGenerator();
+        _worldRenderingSystem = new WorldRenderingSystem();
+
+        _saveSystem = new SaveSystem();
+        _map = new Map();
 
         RegisterAnimations();
 
@@ -86,50 +97,104 @@ public class Game1 : Game
     private void RegisterPlayerAnimations()
     {
         // Idle animations
-        _player.Animation.AddAnimation(AnimationState.Idle, FacingDirection.Up, new AnimationClip(22, 2, 64, 64, 5f));
-        _player.Animation.AddAnimation(AnimationState.Idle, FacingDirection.Left, new AnimationClip(23, 2, 64, 64, 5f));
-        _player.Animation.AddAnimation(AnimationState.Idle, FacingDirection.Down, new AnimationClip(24, 2, 64, 64, 5f));
-        _player.Animation.AddAnimation(AnimationState.Idle, FacingDirection.Right, new AnimationClip(25, 2, 64, 64, 5f));
+        _player.Animation.AddAnimation(AnimationState.Idle, FacingDirection.Up, new AnimationClip(22, 2, Constants.TileSize, Constants.TileSize, 5f));
+        _player.Animation.AddAnimation(AnimationState.Idle, FacingDirection.Left, new AnimationClip(23, 2, Constants.TileSize, Constants.TileSize, 5f));
+        _player.Animation.AddAnimation(AnimationState.Idle, FacingDirection.Down, new AnimationClip(24, 2, Constants.TileSize, Constants.TileSize, 5f));
+        _player.Animation.AddAnimation(AnimationState.Idle, FacingDirection.Right, new AnimationClip(25, 2, Constants.TileSize, Constants.TileSize, 5f));
 
         // Walk animations
-        _player.Animation.AddAnimation(AnimationState.Walk, FacingDirection.Up, new AnimationClip(08, 8, 64, 64, 8f, 1));
-        _player.Animation.AddAnimation(AnimationState.Walk, FacingDirection.Left, new AnimationClip(09, 8, 64, 64, 8f, 1));
-        _player.Animation.AddAnimation(AnimationState.Walk, FacingDirection.Down, new AnimationClip(10, 8, 64, 64, 8f, 1));
-        _player.Animation.AddAnimation(AnimationState.Walk, FacingDirection.Right, new AnimationClip(11, 8, 64, 64, 8f, 1));
+        _player.Animation.AddAnimation(AnimationState.Walk, FacingDirection.Up, new AnimationClip(08, 8, Constants.TileSize, Constants.TileSize, 8f, 1));
+        _player.Animation.AddAnimation(AnimationState.Walk, FacingDirection.Left, new AnimationClip(09, 8, Constants.TileSize, Constants.TileSize, 8f, 1));
+        _player.Animation.AddAnimation(AnimationState.Walk, FacingDirection.Down, new AnimationClip(10, 8, Constants.TileSize, Constants.TileSize, 8f, 1));
+        _player.Animation.AddAnimation(AnimationState.Walk, FacingDirection.Right, new AnimationClip(11, 8, Constants.TileSize, Constants.TileSize, 8f, 1));
 
         // Use hoe animations
-        _player.Animation.AddAnimation(AnimationState.Hoe, FacingDirection.Up, new AnimationClip(4, 7, 64, 64, 8f, 1, false));
-        _player.Animation.AddAnimation(AnimationState.Hoe, FacingDirection.Left, new AnimationClip(5, 7, 64, 64, 8f, 1, false));
-        _player.Animation.AddAnimation(AnimationState.Hoe, FacingDirection.Down, new AnimationClip(6, 7, 64, 64, 8f, 1, false));
-        _player.Animation.AddAnimation(AnimationState.Hoe, FacingDirection.Right, new AnimationClip(7, 7, 64, 64, 8f, 1, false));
+        _player.Animation.AddAnimation(AnimationState.Hoe, FacingDirection.Up, new AnimationClip(4, 7, Constants.TileSize, Constants.TileSize, 8f, 1, false));
+        _player.Animation.AddAnimation(AnimationState.Hoe, FacingDirection.Left, new AnimationClip(5, 7, Constants.TileSize, Constants.TileSize, 8f, 1, false));
+        _player.Animation.AddAnimation(AnimationState.Hoe, FacingDirection.Down, new AnimationClip(6, 7, Constants.TileSize, Constants.TileSize, 8f, 1, false));
+        _player.Animation.AddAnimation(AnimationState.Hoe, FacingDirection.Right, new AnimationClip(7, 7, Constants.TileSize, Constants.TileSize, 8f, 1, false));
 
         // watering can animations
         int[] wateringFrames = { 0, 1, 4, 4, 4, 5 };
-        _player.Animation.AddAnimation(AnimationState.WateringCan, FacingDirection.Up, new AnimationClip(4, wateringFrames, 64, 64, 8f, false));
-        _player.Animation.AddAnimation(AnimationState.WateringCan, FacingDirection.Left, new AnimationClip(5, wateringFrames, 64, 64, 8f, false));
-        _player.Animation.AddAnimation(AnimationState.WateringCan, FacingDirection.Down, new AnimationClip(6, wateringFrames, 64, 64, 8f, false));
-        _player.Animation.AddAnimation(AnimationState.WateringCan, FacingDirection.Right, new AnimationClip(7, wateringFrames, 64, 64, 8f, false));
+        _player.Animation.AddAnimation(AnimationState.WateringCan, FacingDirection.Up, new AnimationClip(4, wateringFrames, Constants.TileSize, Constants.TileSize, 8f, false));
+        _player.Animation.AddAnimation(AnimationState.WateringCan, FacingDirection.Left, new AnimationClip(5, wateringFrames, Constants.TileSize, Constants.TileSize, 8f, false));
+        _player.Animation.AddAnimation(AnimationState.WateringCan, FacingDirection.Down, new AnimationClip(6, wateringFrames, Constants.TileSize, Constants.TileSize, 8f, false));
+        _player.Animation.AddAnimation(AnimationState.WateringCan, FacingDirection.Right, new AnimationClip(7, wateringFrames, Constants.TileSize, Constants.TileSize, 8f, false));
     }
 
     protected override void LoadContent()
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-        _textureDictionary[TextureType.Body] = Content.Load<Texture2D>("Textures/Player/player1");
-        _textureDictionary[TextureType.Pants] = Content.Load<Texture2D>("Textures/Clothing/Pant/Pant1");
-        _textureDictionary[TextureType.Boots] = Content.Load<Texture2D>("Textures/Clothing/Shoe/Shoe1");
-        _textureDictionary[TextureType.ChestArmor] = Content.Load<Texture2D>("Textures/Clothing/Torso/ShortSleeve1");
-        _textureDictionary[TextureType.Gloves] = Content.Load<Texture2D>("Textures/Clothing/Glove/Glove1");
-        _textureDictionary[TextureType.Hoe] = Content.Load<Texture2D>("Textures/Tools/hoe");
-        _textureDictionary[TextureType.WateringCan] = Content.Load<Texture2D>("Textures/Tools/watering-can");
+        AssetManifest manifest = _assetManifestLoader.Load(Path.Combine(Content.RootDirectory, "assets.json"));
 
-        _defaultFont = Content.Load<SpriteFont>("Font/DefaultFont");
+        _assetManager.Load(Content, manifest);
 
-        _player.Equipment.Body = _textureDictionary[TextureType.Body];
-        _player.Equipment.Pants = _textureDictionary[TextureType.Pants];
-        _player.Equipment.Boots = _textureDictionary[TextureType.Boots];
-        _player.Equipment.ChestArmor = _textureDictionary[TextureType.ChestArmor];
-        _player.Equipment.Gloves = _textureDictionary[TextureType.Gloves];
+        _defaultFont = _assetManager.GetSpriteFont("fonts.default");
+
+        _player.Equipment.Body = _assetManager.GetTexture("players.player1");
+        _player.Equipment.Pants = _assetManager.GetTexture("clothing.leg.pant1");
+        _player.Equipment.Boots = _assetManager.GetTexture("clothing.foot.shoe1");
+        _player.Equipment.ChestArmor = _assetManager.GetTexture("clothing.torso.torso1");
+        _player.Equipment.Gloves = _assetManager.GetTexture("clothing.hand.glove1");
+
+        LoadWorld(manifest);
+    }
+
+    private void LoadWorld(AssetManifest manifest) 
+    {
+        string savePath = Path.Combine(
+            AppContext.BaseDirectory,
+            "Saves",
+            "world.json"
+        );
+
+        string worldPath = Path.Combine(
+            Content.RootDirectory,
+            "Worlds",
+            "world.json"
+        );
+
+        // Calculate a hash using both world configuration and available tiles
+        string currentHash = _saveSystem.CalculateWorldHash(
+            worldPath,
+            Path.Combine(Content.RootDirectory, "assets.json")
+        );
+
+        //bool saveExists = File.Exists(savePath);
+        bool saveExists = false; // For testing purposes, always regenerate the world
+
+        string? savedHash = saveExists
+            ? _saveSystem.LoadWorldHash(savePath)
+            : null;
+
+        WorldManifest worldManifest;
+
+        if (saveExists && savedHash == currentHash)
+        {
+            // Configuration hasn't changed: load the existing world
+            worldManifest = _saveSystem.LoadWorld(savePath);
+        }
+        else
+        {
+            // Configuration changed or no save exists: regenerate
+            WorldManifest template = _worldLoader.Load(worldPath);
+
+            worldManifest = _worldGenerator.GenerateRandomManifest(
+                template,
+                manifest
+            );
+
+            // Save the newly generated world and its source hash
+            _saveSystem.SaveWorld(
+                worldManifest,
+                currentHash,
+                savePath
+            );
+        }
+
+        // Initialize the runtime map
+        _map.Initialize(worldManifest, _worldGenerator);
     }
 
     protected override void Update(GameTime gameTime)
@@ -143,7 +208,11 @@ public class Game1 : Game
 
         UpdatePlayer(deltaTime);
 
-        _cameraSystem.Follow(_player, GraphicsDevice.Viewport);
+        _cameraSystem.Follow(
+            _player,
+            _map.CurrentWorld!,
+            GraphicsDevice.Viewport
+        );
 
         _inputSystem.FinishUpdate();
 
@@ -158,7 +227,7 @@ public class Game1 : Game
 
         _player.Equipment.Tool = GetPlayerCurrentToolTexture();
 
-        _movementSystem.Update(_player, deltaTime);
+        _movementSystem.Update(_player, deltaTime, _map.CurrentWorld!);
 
         _animationSystem.Update(_player, deltaTime);
     }
@@ -170,8 +239,8 @@ public class Game1 : Game
 
         return _player.EquippedTool switch
         {
-            ToolType.Hoe => _textureDictionary[TextureType.Hoe],
-            ToolType.WateringCan => _textureDictionary[TextureType.WateringCan],
+            ToolType.Hoe => _assetManager.GetTexture("tools.hoe"),
+            ToolType.WateringCan => _assetManager.GetTexture("tools.wateringCan"),
             _ => null
         };
     }
@@ -180,17 +249,32 @@ public class Game1 : Game
     {
         GraphicsDevice.Clear(Color.CornflowerBlue);
 
-        _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+        _spriteBatch.Begin(
+            samplerState: SamplerState.PointClamp,
+            transformMatrix: _cameraSystem.Transform
+        );
 
-        //_spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: _cameraSystem.Transform);
+        // Draw the world first
+        _worldRenderingSystem.Draw(
+            _spriteBatch,
+            _map.CurrentWorld!,
+            _assetManager
+        );
 
+        // Draw the player on top of the world
         _renderingSystem.Draw(_spriteBatch, _player);
 
-        //_spriteBatch.End();
+        _spriteBatch.End();
 
-        //_spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+        // Draw UI without camera transformation
+        _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
-        _spriteBatch.DrawString(_defaultFont, $"X: {_player.Transform.Position.X:0.00}, Y: {_player.Transform.Position.Y:0.00}", new Vector2(10, 10), Color.White);
+        _spriteBatch.DrawString(
+            _defaultFont,
+            $"X: {_player.Transform.Position.X:0.00}, Y: {_player.Transform.Position.Y:0.00}",
+            new Vector2(10, 10),
+            Color.White
+        );
 
         _spriteBatch.End();
 

@@ -1,0 +1,33 @@
+{
+  "tiles": {
+    "stone": "Textures/Tiles/stone",
+    "grass": "Textures/Tiles/grass",
+    "dirt": "Textures/Tiles/dirt"
+  },
+  "players": {
+    "player1": "Textures/Player/player1"
+  },
+  "tools": {
+    "hoe": "Textures/Tools/hoe",
+    "wateringCan": "Textures/Tools/watering-can"
+  },
+  "clothing": {
+    "head": {},
+    "torso": {
+      "torso1": "Textures/Clothing/Torso/ShortSleeve1"
+    },
+    "hand": {
+      "glove1": "Textures/Clothing/Glove/Glove1"
+    },
+    "leg": {
+      "pant1": "Textures/Clothing/Pant/Pant1"
+    },
+    "foot": {
+      "shoe1": "Textures/Clothing/Shoe/Shoe1"
+    }
+  },
+  "resources": {},
+  "fonts": {
+    "default": "Font/DefaultFont"
+  }
+}
