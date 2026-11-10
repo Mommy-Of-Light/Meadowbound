@@ -564,9 +564,7 @@ La prochaine étape consistera à préciser cette organisation en définissant l
 - Préparer le système de chargement des ressources.
 - Vérifier la compilation et le démarrage du projet.
 
-## Journal de bord — Jour 6
-
-Organisation de l'architecture, composants et chargement des ressources — Meadowbound
+## Jour 6 - Organisation de l'architecture, composants et chargement des ressources — Meadowbound
 
 **Temps de travail**:
 180 min / 3 heures
@@ -606,7 +604,7 @@ Une organisation par domaines fonctionnels a été envisagée, avec notamment de
 
 Les namespaces devront suivre cette organisation afin de faciliter l'identification des classes et de leurs rôles.
 
-Issue concernée : [#10 — Définir l'organisation des dossiers et namespaces](https://github.com/Mommy-Of-Light/Meadowbound/issues/10?utm_source=chatgpt.com).
+Issue concernée : [#10 — Définir l'organisation des dossiers et namespaces](https://github.com/Mommy-Of-Light/Meadowbound/issues/10).
 
 #### 3.2. Définition des responsabilités des principaux composants
 
@@ -629,7 +627,7 @@ Les principaux éléments identifiés sont les suivants :
 
 Cette répartition constitue une première proposition d'organisation. Les responsabilités exactes seront précisées au fur et à mesure de l'implémentation.
 
-Issue concernée : [#11 — Définir les responsabilités des principaux composants](https://github.com/Mommy-Of-Light/Meadowbound/issues/11?utm_source=chatgpt.com).
+Issue concernée : [#11 — Définir les responsabilités des principaux composants](https://github.com/Mommy-Of-Light/Meadowbound/issues/11).
 
 #### 3.3. Préparation du chargement des ressources du jeu
 
@@ -647,7 +645,7 @@ L'objectif est de centraliser leur chargement afin d'éviter que chaque système
 
 Cette approche permettra également de faciliter l'évolution du contenu graphique et d'assurer une meilleure organisation des ressources.
 
-Issue concernée : [#12 — Configurer le chargement des ressources du jeu](https://github.com/Mommy-Of-Light/Meadowbound/issues/12?utm_source=chatgpt.com).
+Issue concernée : [#12 — Configurer le chargement des ressources du jeu](https://github.com/Mommy-Of-Light/Meadowbound/issues/12).
 
 #### 3.4. Vérification de la compilation et du démarrage
 
@@ -659,7 +657,7 @@ Cette vérification constitue une étape importante avant de commencer le dével
 
 Elle permettra également de disposer d'une base exécutable sur laquelle les futurs systèmes pourront être intégrés progressivement.
 
-Issue concernée : [#13 — Vérifier que le projet compile et démarre correctement](https://github.com/Mommy-Of-Light/Meadowbound/issues/13?utm_source=chatgpt.com).
+Issue concernée : [#13 — Vérifier que le projet compile et démarre correctement](https://github.com/Mommy-Of-Light/Meadowbound/issues/13).
 
 ### 4. Résultats obtenus
 
@@ -699,3 +697,164 @@ Les prochaines journées pourront désormais être davantage orientées vers la 
 - Charger et afficher les premières textures.
 - Commencer à préparer la gestion des déplacements du joueur.
 - Tester progressivement les interactions entre les composants.
+
+## Jour 7 - Création du personnage joueur et implémentation des déplacements — Meadowbound
+
+Temps de travail : 180 min / 3 heures
+
+Issues concernées : [#16 — Créer le personnage joueur](https://github.com/Mommy-Of-Light/Meadowbound/issues/16) et [#17 — Implémenter les déplacements dans les quatre directions](https://github.com/Mommy-Of-Light/Meadowbound/issues/17)
+
+### 1. Objectif de la journée
+
+Cette septième journée a été consacrée à la création du personnage joueur et à la mise en place de ses premiers comportements.
+
+À partir de l'architecture définie précédemment, l'objectif était d'intégrer le joueur dans le projet, de gérer ses déplacements dans les quatre directions et de préparer son affichage à l'écran.
+
+Le travail a également porté sur la gestion des entrées clavier, les animations du personnage, l'équipement des outils et le suivi du joueur par la caméra.
+
+### 2. Déroulement de la journée
+
+| Activité                 | Travail effectué                                                                | Durée   |
+| ------------------------ | ------------------------------------------------------------------------------- | ------- |
+| Création du personnage   | Mise en place de la classe `Player` et de ses composants principaux.            | 30 min  |
+| Gestion des déplacements | Implémentation des déplacements dans les quatre directions à partir du clavier. | 35 min  |
+| Gestion des animations   | Création des animations d'attente, de marche et d'utilisation des outils.       | 40 min  |
+| Gestion des équipements  | Intégration des textures du personnage et des outils.                           | 25 min  |
+| Système de caméra        | Mise en place du suivi du personnage et du centrage de la caméra.               | 30 min  |
+| Tests et documentation   | Vérification du fonctionnement et mise à jour des issues.                       | 20 min  |
+| Total                    |                                                                                 | 180 min |
+
+### 3. Travaux réalisés
+
+#### 3.1. Création du personnage joueur
+
+La première étape a consisté à créer le personnage principal de Meadowbound à travers une classe `Player`.
+
+Cette classe s'appuie sur les composants définis dans l'architecture du projet afin de regrouper les informations nécessaires au fonctionnement du personnage.
+
+Les principaux éléments intégrés comprennent :
+
+- La position du personnage à travers son composant de transformation (`TransformComponent`).
+- Les informations liées à ses déplacements (`MovementComponent`).
+- La gestion de ses animations (`AnimationComponent`).
+- La gestion de son équipement, notamment les vêtements et les outils.
+- Les informations relatives à l'outil actuellement équipé et à son utilisation.
+
+Cette organisation permet de séparer les données du personnage des systèmes chargés de traiter ses comportements.
+
+Issue concernée : [#16 — Créer le personnage joueur](https://github.com/Mommy-Of-Light/Meadowbound/issues/16).
+
+#### 3.2. Implémentation des déplacements dans les quatre directions
+
+La deuxième étape a porté sur la gestion des déplacements du personnage.
+
+Un `InputSystem` a été mis en place afin de récupérer les entrées du clavier et de déterminer la direction souhaitée par le joueur.
+
+Les déplacements sont possibles dans les quatre directions principales :
+
+- Haut : `W` ou `Flèche haut`.
+- Bas : `S` ou `Flèche bas`.
+- Gauche : `A` ou `Flèche gauche`.
+- Droite : `D` ou `Flèche droite`.
+
+Une gestion de l'ordre des pressions a également été ajoutée afin de privilégier la dernière direction pressée lorsque plusieurs touches de déplacement sont maintenues simultanément.
+
+Le déplacement effectif est ensuite traité par un `MovementSystem`, qui actualise la position du personnage en fonction de sa vitesse et du temps écoulé entre deux mises à jour.
+
+Cette approche permet d'obtenir un déplacement indépendant de la fréquence d'images du jeu.
+
+Issue concernée : [#17 — Implémenter les déplacements dans les quatre directions](https://github.com/Mommy-Of-Light/Meadowbound/issues/17).
+
+#### 3.3. Mise en place du système d'animations
+
+Le travail s'est ensuite concentré sur l'intégration des animations du personnage à partir de ses spritesheets.
+
+Un système d'animation a été développé afin de gérer plusieurs états :
+
+| État        | Description                                   |
+| ----------- | --------------------------------------------- |
+| Idle        | Animation lorsque le personnage est immobile. |
+| Walk        | Animation lorsque le personnage se déplace.   |
+| Hoe         | Animation d'utilisation de la houe.           |
+| WateringCan | Animation d'utilisation de l'arrosoir.        |
+
+Une classe `AnimationClip` permet de définir les images constituant une animation, leur durée d'affichage et leur caractère répétitif ou non.
+
+Le système prend également en compte la direction du personnage afin de sélectionner l'animation correspondant à son orientation.
+
+Une gestion spécifique des séquences d'images a été ajoutée pour l'arrosoir, dont certaines étapes nécessitent de conserver la même image pendant plusieurs intervalles.
+
+L'ensemble est coordonné par un `AnimationSystem`, qui sélectionne et actualise les animations en fonction des déplacements et des actions du joueur.
+
+#### 3.4. Gestion des équipements et des outils
+
+Une première gestion de l'équipement visuel du personnage a également été intégrée.
+
+Les textures du corps, des vêtements et des outils sont chargées à partir du gestionnaire de contenu de MonoGame, puis associées aux différents emplacements de l'équipement du joueur.
+
+Un dictionnaire basé sur une énumération `TextureType` permet de centraliser les textures chargées et de les retrouver selon leur catégorie.
+
+La sélection des outils est réalisée au clavier :
+
+- `1` : équiper la houe.
+- `2` : équiper l'arrosoir.
+- `0` : retirer l'outil équipé.
+- `E` : utiliser l'outil sélectionné.
+
+Le rendu du personnage repose sur la superposition de plusieurs couches graphiques, permettant d'afficher les différentes parties de son équipement.
+
+#### 3.5. Mise en place du système de caméra
+
+Enfin, un `CameraSystem` a été créé afin de suivre les déplacements du personnage.
+
+La caméra calcule sa position à partir du centre du joueur, puis applique une transformation à l'affichage pour maintenir celui-ci au centre de l'écran.
+
+Cette transformation est transmise au `SpriteBatch` de MonoGame lors du rendu.
+
+Le système permet ainsi de déplacer le point de vue avec le personnage plutôt que de limiter ses déplacements à une zone fixe de l'écran.
+
+Un affichage des coordonnées du joueur a également été conservé à des fins de débogage. Cet affichage est séparé de la transformation de la caméra afin de rester fixe à l'écran.
+
+### 4. Résultats obtenus
+
+- Création de la classe `Player` et intégration de ses principaux composants.
+- Implémentation des déplacements dans les quatre directions.
+- Gestion des entrées clavier et de la priorité de la dernière direction pressée.
+- Mise en place des animations d'attente et de déplacement.
+- Intégration des animations d'utilisation de la houe et de l'arrosoir.
+- Chargement et association des textures du personnage et de ses équipements.
+- Mise en place de la sélection et de l'utilisation des outils.
+- Création d'un système de caméra permettant de suivre et de centrer le joueur.
+- Vérification du fonctionnement des différents systèmes intégrés.
+
+### 5. Difficultés et points de vigilance
+
+L'une des principales difficultés rencontrées concerne la synchronisation entre les déplacements et les animations du personnage.
+
+Il est nécessaire de s'assurer que l'animation affichée correspond toujours à l'état actuel du joueur et à sa direction.
+
+La gestion des animations d'utilisation des outils demande également une attention particulière, notamment pour les séquences non répétitives et les images qui doivent rester affichées pendant plusieurs intervalles.
+
+Un autre point important concerne la superposition des différentes couches graphiques. Les textures des vêtements et des outils doivent utiliser des coordonnées d'animation compatibles avec celles du personnage pour que leur affichage reste cohérent.
+
+Enfin, le système de caméra devra évoluer avec la création du monde afin de prendre en compte les limites de la carte et d'éviter l'affichage des zones situées en dehors de celle-ci.
+
+### 6. Bilan de la journée
+
+Cette septième journée a permis de franchir une première étape importante dans le développement de Meadowbound : le personnage joueur est désormais intégré au projet et dispose de ses premiers comportements fonctionnels.
+
+Les déplacements dans les quatre directions, les animations, la gestion des équipements et l'utilisation des outils constituent une première base pour les futures mécaniques de gameplay.
+
+L'ajout du système de caméra permet également de préparer le jeu à un environnement plus vaste que la seule zone visible à l'écran.
+
+L'architecture mise en place précédemment commence ainsi à être utilisée concrètement à travers l'interaction entre les différents systèmes.
+
+### 7. Prochaines étapes
+
+- Préparer les premières données représentant le monde.
+- Définir la structure des cartes et des différentes cases.
+- Développer le système de rendu de la carte.
+- Intégrer les premières textures du décor.
+- Adapter la caméra aux dimensions et aux limites du monde.
+- Préparer les systèmes de collision afin de contrôler les déplacements du joueur.
+- Tester les interactions entre le personnage et les éléments de l'environnement.
