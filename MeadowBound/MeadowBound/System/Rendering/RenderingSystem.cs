@@ -1,38 +1,44 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Meadowbound.Entities.Player;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Meadowbound.Entities.Player;
+using System;
 
 namespace Meadowbound.Systems.Rendering;
 
 public class RenderingSystem
 {
-    public void Draw(
-        SpriteBatch spriteBatch,
-        Texture2D texture,
-        Player player)
+    public void Draw(SpriteBatch spriteBatch, Player player)
     {
-        int frameX = player.Animation.CurrentFrame;
-        int frameY = (int)player.Animation.Direction;
+        Rectangle? sourceRectangle = player.Animation.CurrentSourceRectangle;
 
-        Rectangle sourceRectangle = new Rectangle(
-            frameX * player.Animation.FrameWidth,
-            frameY * player.Animation.FrameHeight,
-            player.Animation.FrameWidth,
-            player.Animation.FrameHeight
-        );
+        if (!sourceRectangle.HasValue)
+            return;
 
-        Rectangle destinationRectangle = new Rectangle(
-            (int)player.Transform.Position.X,
-            (int)player.Transform.Position.Y,
-            64,
-            64
-        );
+        Rectangle destinationRectangle = new Rectangle((int)MathF.Round(player.Transform.Position.X), (int)MathF.Round(player.Transform.Position.Y), 64, 64);
 
-        spriteBatch.Draw(
-            texture,
-            destinationRectangle,
-            sourceRectangle,
-            Color.White
-        );
+        DrawLayer(spriteBatch, player.Equipment.Body, sourceRectangle.Value, destinationRectangle);
+
+        DrawLayer(spriteBatch, player.Equipment.Pants, sourceRectangle.Value, destinationRectangle);
+
+        DrawLayer(spriteBatch, player.Equipment.Boots, sourceRectangle.Value, destinationRectangle);
+
+        DrawLayer(spriteBatch, player.Equipment.ChestArmor, sourceRectangle.Value, destinationRectangle);
+
+        DrawLayer(spriteBatch, player.Equipment.Gloves, sourceRectangle.Value, destinationRectangle);
+
+        DrawLayer(spriteBatch, player.Equipment.Helmet, sourceRectangle.Value, destinationRectangle);
+
+        if (player.IsToolEquipped)
+            DrawLayer(spriteBatch, player.Equipment.Tool, sourceRectangle.Value, destinationRectangle);
+
+        DrawLayer(spriteBatch, player.Equipment.Weapon, sourceRectangle.Value, destinationRectangle);
+    }
+
+    private void DrawLayer(SpriteBatch spriteBatch, Texture2D? texture, Rectangle sourceRectangle, Rectangle destinationRectangle)
+    {
+        if (texture == null)
+            return;
+
+        spriteBatch.Draw(texture, destinationRectangle, sourceRectangle, Color.White);
     }
 }

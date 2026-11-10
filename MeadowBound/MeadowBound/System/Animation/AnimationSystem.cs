@@ -10,70 +10,49 @@ public class AnimationSystem
     public void Update(Player player, float deltaTime)
     {
         AnimationComponent animation = player.Animation;
-
         Vector2 direction = player.Movement.Direction;
 
-        // Determine facing direction
+        FacingDirection facing = animation.Direction;
+
         if (direction.LengthSquared() > 0)
         {
             if (Math.Abs(direction.X) > Math.Abs(direction.Y))
             {
-                animation.Direction = direction.X > 0
-                    ? FacingDirection.Right
-                    : FacingDirection.Left;
+                facing = direction.X > 0? FacingDirection.Right: FacingDirection.Left;
             }
             else
             {
-                animation.Direction = direction.Y > 0
-                    ? FacingDirection.Down
-                    : FacingDirection.Up;
-            }
-
-            // Select walking animation when appropriate
-            if (animation.State == AnimationState.Idle ||
-                animation.State == AnimationState.Walk)
-            {
-                animation.SetAnimation(
-                    AnimationState.Walk,
-                    animation.Direction);
-            }
-        }
-        else
-        {
-            // Return to idle when appropriate
-            if (animation.State == AnimationState.Walk)
-            {
-                animation.SetAnimation(
-                    AnimationState.Idle,
-                    animation.Direction);
+                facing = direction.Y > 0? FacingDirection.Down: FacingDirection.Up;
             }
         }
 
-        // Advance current animation
-        AnimationClip clip = animation.CurrentClip;
-
-        if (clip == null)
-            return;
-
-        animation.Timer += deltaTime;
-
-        while (animation.Timer >= clip.FrameDuration)
+        if (player.IsToolUsed && player.IsToolEquipped)
         {
-            animation.Timer -= clip.FrameDuration;
+            animation.SetAnimation(AnimationState.Hoe, facing);
+        }
 
-            if (animation.CurrentFrame < clip.Frames.Length - 1)
-            {
-                animation.CurrentFrame++;
-            }
-            else if (clip.IsLooping)
-            {
-                animation.CurrentFrame = 0;
-            }
-            else
-            {
-                animation.Timer = 0f;
-                break;
-            }
+        animation.Advance(deltaTime);
+
+        if (animation.State == AnimationState.Hoe && animation.IsFinished)
+        {
+            AnimationState desiredState =direction.LengthSquared() > 0? AnimationState.Walk: AnimationState.Idle;
+
+            animation.SetAnimation(desiredState, facing);
+        }
+        if (animation.State == AnimationState.WateringCan && animation.IsFinished)
+        {
+            AnimationState desiredState = direction.LengthSquared() > 0 ? AnimationState.Walk : AnimationState.Idle;
+            animation.SetAnimation(desiredState, facing);
+        }
+        else if (player.IsToolUsed && player.IsToolEquipped && player.EquippedTool == ToolType.WateringCan)
+        {
+            animation.SetAnimation(AnimationState.WateringCan, facing);
+        }
+        else if (animation.State != AnimationState.Hoe && animation.State != AnimationState.WateringCan && !player.IsToolUsed)
+        {
+            AnimationState desiredState =direction.LengthSquared() > 0? AnimationState.Walk: AnimationState.Idle;
+
+            animation.SetAnimation(desiredState, facing);
         }
     }
 }

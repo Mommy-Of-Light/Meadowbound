@@ -4,9 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MeadowBound.Core
+namespace Meadowbound.Core;
+
+
+internal class Constants
 {
-    internal class Constants
-    {
-    }
+    public const int ScreenWidth = 800;
+    public const int ScreenHeight = 600;
+    public const int TileSize = 64;
+    public const string AppName = "MeadowBound";
 }

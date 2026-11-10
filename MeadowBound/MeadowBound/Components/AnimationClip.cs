@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
 
 namespace Meadowbound.Components;
 
@@ -9,19 +8,29 @@ public class AnimationClip
     public float FrameDuration { get; }
     public bool IsLooping { get; }
 
-    public AnimationClip(
-        Rectangle[] frames,
-        float frameDuration,
-        bool isLooping = true)
+    public AnimationClip(int row, int frameCount, int frameWidth, int frameHeight, float framesPerSecond, int startColumn = 0, bool isLooping = true)
     {
-        if (frames == null || frames.Length == 0)
-            throw new ArgumentException("An animation must contain at least one frame.");
+        Frames = new Rectangle[frameCount];
 
-        if (frameDuration <= 0)
-            throw new ArgumentOutOfRangeException(nameof(frameDuration));
+        for (int i = 0; i < frameCount; i++)
+        {
+            Frames[i] = new Rectangle((startColumn + i) * frameWidth, row * frameHeight, frameWidth, frameHeight);
+        }
 
-        Frames = frames;
-        FrameDuration = frameDuration;
+        FrameDuration = 1f / framesPerSecond;
+        IsLooping = isLooping;
+    }
+
+    public AnimationClip(int row, int[] frameIndices, int frameWidth, int frameHeight, float framesPerSecond, bool isLooping = true)
+    {
+        Frames = new Rectangle[frameIndices.Length];
+
+        for (int i = 0; i < frameIndices.Length; i++)
+        {
+            Frames[i] = new Rectangle(frameIndices[i] * frameWidth, row * frameHeight, frameWidth, frameHeight);
+        }
+
+        FrameDuration = 1f / framesPerSecond;
         IsLooping = isLooping;
     }
 }

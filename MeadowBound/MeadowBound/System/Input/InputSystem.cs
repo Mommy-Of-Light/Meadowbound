@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Meadowbound.Entities.Player;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 
@@ -7,6 +8,7 @@ namespace Meadowbound.Systems.Input;
 public class InputSystem
 {
     private KeyboardState _previousKeyboardState;
+    private KeyboardState _currentKeyboardState;
 
     private readonly List<Keys> _pressedKeys = new();
 
@@ -18,24 +20,24 @@ public class InputSystem
         Keys.D, Keys.Right
     };
 
-    public Vector2 GetMovementDirection()
+    public void Update()
     {
-        KeyboardState keyboard = Keyboard.GetState();
+        _currentKeyboardState = Keyboard.GetState();
 
         foreach (Keys key in _movementKeys)
         {
-            if (keyboard.IsKeyDown(key) &&
-                _previousKeyboardState.IsKeyUp(key))
+            if (_currentKeyboardState.IsKeyDown(key) && _previousKeyboardState.IsKeyUp(key))
             {
                 _pressedKeys.Remove(key);
                 _pressedKeys.Add(key);
             }
         }
 
-        _pressedKeys.RemoveAll(key => keyboard.IsKeyUp(key));
+        _pressedKeys.RemoveAll(key => _currentKeyboardState.IsKeyUp(key));
+    }
 
-        _previousKeyboardState = keyboard;
-
+    public Vector2 GetMovementDirection()
+    {
         if (_pressedKeys.Count == 0)
             return Vector2.Zero;
 
@@ -49,5 +51,37 @@ public class InputSystem
             Keys.D or Keys.Right => new Vector2(1, 0),
             _ => Vector2.Zero
         };
+    }
+
+    public bool IsToolEquipped(Player player)
+    {
+        if (_currentKeyboardState.IsKeyDown(Keys.D1) && _previousKeyboardState.IsKeyUp(Keys.D1))
+        {
+            player.EquippedTool = ToolType.Hoe;
+            player.IsToolEquipped = true;
+        }
+        if (_currentKeyboardState.IsKeyDown(Keys.D2) && _previousKeyboardState.IsKeyUp(Keys.D2))
+        {
+            player.EquippedTool = ToolType.WateringCan;
+            player.IsToolEquipped = true;
+        }
+
+        if (_currentKeyboardState.IsKeyDown(Keys.D0) && _previousKeyboardState.IsKeyUp(Keys.D0))
+        {
+            player.EquippedTool = ToolType.None;
+            player.IsToolEquipped = false;
+        }
+
+        return player.IsToolEquipped;
+    }
+
+    public bool IsToolUsed()
+    {
+        return _currentKeyboardState.IsKeyDown(Keys.E);
+    }
+
+    public void FinishUpdate()
+    {
+        _previousKeyboardState = _currentKeyboardState;
     }
 }
