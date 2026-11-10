@@ -858,3 +858,184 @@ L'architecture mise en place précédemment commence ainsi à être utilisée co
 - Adapter la caméra aux dimensions et aux limites du monde.
 - Préparer les systèmes de collision afin de contrôler les déplacements du joueur.
 - Tester les interactions entre le personnage et les éléments de l'environnement.
+
+## Jour 8 - Génération procédurale du monde, gestion des parcelles et système de sauvegarde — Meadowbound
+
+**Temps de travail** :
+180 min / 3 heures
+
+**Issues concernées** : Définition du format initial de la carte, chargement et affichage de la carte, limitation de la caméra aux frontières de la carte et préparation du système de sauvegarde.
+
+### 1. Objectif de la journée
+
+Cette huitième journée a été consacrée à la création du monde de Meadowbound et à la mise en place des premiers mécanismes de génération procédurale.
+
+Après avoir intégré le personnage joueur et ses déplacements, l'objectif était de lui fournir un environnement complet dans lequel évoluer.
+
+Le travail a notamment porté sur la définition du format de données du monde, la création d'un générateur de carte, l'intégration des premières textures de terrain et la mise en place d'un système de sauvegarde permettant de conserver les cartes générées.
+
+Une attention particulière a également été accordée à la reproductibilité de la génération, afin qu'une même seed permette d'obtenir exactement la même disposition du terrain.
+
+### 2. Déroulement de la journée
+
+| Activité                            | Travail effectué                                                                             | Durée   |
+| ----------------------------------- | -------------------------------------------------------------------------------------------- | ------- |
+| Définition des données du monde     | Création des modèles représentant le monde, ses dimensions et ses cases.                     | 25 min  |
+| Chargement et affichage de la carte | Mise en place du chargement du monde et de son système de rendu.                             | 25 min  |
+| Gestion des limites du monde        | Adaptation de la caméra et des déplacements aux dimensions de la carte.                      | 20 min  |
+| Génération procédurale              | Création du générateur et intégration des premières parcelles prédéfinies.                   | 40 min  |
+| Génération basée sur une seed       | Mise en place d'une génération déterministe et reproductible.                                | 30 min  |
+| Sauvegarde et validation            | Intégration de la sauvegarde du monde et de la détection des modifications de configuration. | 25 min  |
+| Documentation et bilan              | Vérification de l'architecture et préparation des prochaines étapes.                         | 15 min  |
+| Total                               |                                                                                              | 180 min |
+
+### 3. Travaux réalisés
+
+#### 3.1. Définition du format initial de la carte
+
+La première partie du travail a porté sur la définition de la structure des données représentant le monde.
+
+Un format JSON a été retenu afin de décrire les principales caractéristiques de la carte, notamment :
+
+- Le nom du monde.
+- Ses dimensions en nombre de cases.
+- La position de chaque case.
+- Le type de terrain associé.
+- La référence vers sa texture.
+- Les données spécifiques pouvant être associées à une case.
+
+Plusieurs classes de modèles ont été préparées afin de représenter ces informations, notamment `WorldManifest`, `WorldSize`, `TileManifest` et `TilePosition`.
+
+Une structure flexible a également été prévue pour les données personnalisées des cases. Elle permettra notamment d'ajouter ultérieurement des informations propres aux parcelles agricoles, comme leur état d'humidité, la présence d'une graine ou leur stade de préparation.
+
+Cette organisation permet de séparer les données descriptives du monde de sa représentation en mémoire pendant l'exécution du jeu.
+
+#### 3.2. Chargement et affichage de la carte
+
+Le travail s'est ensuite concentré sur la création du mécanisme permettant de transformer les données JSON en un monde exploitable par le jeu.
+
+Un `WorldLoader` a été préparé pour lire les fichiers de configuration et les convertir en modèles de données.
+
+Un `WorldGenerator` permet ensuite de construire la représentation du monde utilisée pendant l'exécution.
+
+Une classe `World` regroupe les informations principales de la carte, tandis qu'une classe `Tile` représente individuellement chaque case.
+
+Un `WorldRenderingSystem` a également été mis en place afin d'afficher les cases à partir de leurs coordonnées et de leurs références de textures.
+
+Le rendu du monde est intégré à la boucle graphique existante et effectué avant celui du personnage joueur, permettant ainsi de placer le joueur au-dessus du terrain.
+
+#### 3.3. Adaptation de la caméra et des déplacements aux limites du monde
+
+Une autre partie du travail a concerné la gestion des frontières de la carte.
+
+Le système de caméra a été adapté afin de prendre en compte les dimensions réelles du monde plutôt que celles de la fenêtre du jeu.
+
+La caméra suit le personnage lorsqu'il se trouve suffisamment loin des limites de la carte. Lorsqu'il approche d'une frontière, son déplacement est limité afin d'éviter d'afficher des zones situées en dehors du monde.
+
+Le système de déplacement a également été adapté pour utiliser les dimensions de la carte et empêcher le personnage de sortir de ses limites.
+
+Enfin, une constante commune `TileSize` a été utilisée pour harmoniser les dimensions des cases, du personnage et les calculs de positionnement.
+
+#### 3.4. Création du système de génération procédurale
+
+Le travail s'est ensuite orienté vers la génération automatique du terrain.
+
+L'objectif initial était de remplir l'ensemble de la carte sans devoir définir manuellement chaque case dans le fichier JSON.
+
+Une première génération aléatoire a été envisagée, puis remplacée par une approche reposant sur des parcelles de terrain prédéfinies.
+
+Trois premiers modèles de parcelles ont été définis :
+
+| Preset        | Composition            | Description                                                               |
+| ------------- | ---------------------- | ------------------------------------------------------------------------- |
+| Meadow        | Herbe, terre et pierre | Prairie avec un chemin de terre sinueux et quelques pierres.              |
+| Dirt Clearing | Terre, herbe et pierre | Clairière principalement composée de terre, entourée d'herbe.             |
+| Rocky Ground  | Pierre, herbe et terre | Zone rocheuse avec un regroupement de pierres et quelques zones de terre. |
+
+Chaque parcelle possède une taille définie et génère automatiquement les cases qui la composent.
+
+Les parcelles sont ensuite réparties sur l'ensemble de la carte afin de produire un terrain plus structuré qu'une simple distribution aléatoire de textures.
+
+Les textures actuellement disponibles dans le projet sont utilisées : l'herbe, la terre et la pierre.
+
+#### 3.5. Mise en place d'une génération déterministe basée sur une seed
+
+Afin de garantir la reproductibilité des cartes, un système de génération basé sur une seed a été intégré au générateur.
+
+La seed constitue une valeur numérique utilisée pour initialiser le générateur pseudo-aléatoire.
+
+Ainsi, deux mondes possédant les mêmes paramètres de génération et la même seed produiront la même disposition des parcelles et des cases.
+
+Une même seed permettra donc de reproduire un monde à l'identique, ce qui facilitera notamment les tests, la comparaison des générations et la création de nouvelles parties.
+
+Cette approche repose sur un générateur pseudo-aléatoire déterministe afin de ne pas dépendre directement de l'implémentation de `Random` du framework .NET.
+
+#### 3.6. Intégration du système de sauvegarde et détection des modifications
+
+La dernière partie du travail a porté sur la persistance du monde généré.
+
+Une classe `SaveSystem` a été préparée afin de gérer l'enregistrement et le chargement des données du monde au format JSON.
+
+Une classe `Map` permet également de centraliser la représentation du monde actuellement chargé.
+
+Le fonctionnement prévu au démarrage est le suivant :
+
+1. Charger les fichiers de configuration du monde.
+2. Calculer une empreinte numérique de leur contenu.
+3. Comparer cette empreinte à celle enregistrée avec la sauvegarde précédente.
+4. Charger la carte existante si les configurations sont identiques.
+5. Régénérer le monde et remplacer la sauvegarde si une modification est détectée.
+
+Cette vérification permet notamment de prendre en compte les changements de dimensions, de seed, de textures disponibles et de paramètres de génération.
+
+La sauvegarde conserve ainsi la disposition générée, évitant de produire une nouvelle carte aléatoire à chaque lancement du jeu.
+
+### 4. Résultats obtenus
+
+- Définition du format JSON initial représentant le monde.
+- Création des modèles de données nécessaires à la représentation des cases.
+- Mise en place du chargement et de la construction du monde.
+- Création du système de rendu de la carte.
+- Adaptation de la caméra aux frontières du monde.
+- Adaptation des déplacements du personnage aux dimensions de la carte.
+- Centralisation des dimensions des cases à travers `Constants.TileSize`.
+- Définition de trois premiers presets de terrain.
+- Intégration des textures d'herbe, de terre et de pierre dans la génération.
+- Mise en place d'une génération procédurale basée sur une seed.
+- Préparation du système de sauvegarde et de chargement du monde.
+- Mise en place de la détection des modifications des fichiers de configuration.
+
+### 5. Difficultés et points de vigilance
+
+L'une des principales difficultés concerne la séparation entre les données descriptives du monde et sa représentation pendant l'exécution.
+
+Il était nécessaire de conserver un format de sauvegarde suffisamment flexible pour permettre l'ajout de nouvelles propriétés aux cases sans devoir modifier entièrement la structure existante.
+
+La génération procédurale représente également un enjeu important. Une distribution totalement aléatoire des textures peut produire des résultats peu cohérents visuellement. L'utilisation de parcelles prédéfinies permet d'obtenir une première organisation du terrain, mais leurs frontières peuvent encore manquer de continuité.
+
+La reproductibilité de la génération constitue un autre point de vigilance. Il est important que les mêmes paramètres produisent toujours le même résultat, notamment lorsque plusieurs parties utilisent une seed identique.
+
+Enfin, la détection des modifications de configuration doit être distinguée des modifications effectuées pendant une partie. À terme, une évolution du générateur ne devra pas entraîner inutilement la perte de la progression du joueur, de ses cultures ou de ses ressources.
+
+### 6. Bilan de la journée
+
+Cette huitième journée a permis de faire évoluer Meadowbound d'un environnement centré principalement sur le personnage joueur vers un monde composé d'une carte complète et générée automatiquement.
+
+La structure des données du monde a été définie, le chargement et l'affichage des cases ont été préparés et les systèmes de caméra et de déplacement ont été adaptés aux dimensions de la carte.
+
+Le développement du générateur procédural constitue également une étape importante. L'utilisation de parcelles prédéfinies et d'une seed permet de poser les bases d'un système capable de produire des environnements reproductibles et plus cohérents visuellement.
+
+Enfin, l'intégration du système de sauvegarde prépare la conservation des mondes générés entre plusieurs sessions de jeu.
+
+L'ensemble de ces travaux constitue une base technique pour les prochaines étapes, notamment l'intégration des collisions, la gestion des objets présents dans le monde et la création des premières mécaniques agricoles.
+
+### 7. Prochaines étapes
+
+- Améliorer la transition visuelle entre les différentes parcelles de terrain.
+- Tester la reproductibilité des cartes à partir d'une même seed.
+- Vérifier le comportement du générateur avec différentes dimensions de monde.
+- Définir les obstacles et leurs zones de collision.
+- Empêcher le joueur de traverser les éléments solides du décor.
+- Définir les règles de tri de profondeur pour les objets.
+- Préparer la structure des parcelles agricoles et leurs différents états.
+- Étendre le système de sauvegarde aux données du joueur et à sa progression.
