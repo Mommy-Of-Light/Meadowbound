@@ -125,6 +125,27 @@ Exemple de format possible
         "player1": "<path_to_texture>",
         "player2": "<path_to_texture>"
     },
+    "tools": {
+        "tool1": "<path_to_texture>",
+        "tool2": "<path_to_texture>"
+    },
+    "Clothing": {
+        "head": {
+            "hat1": "<path_to_texture>",   
+        },
+        "torso": {
+            "torso1": "<path_to_texture>",   
+        },
+        "hand": {
+            "glove1": "<path_to_texture>",   
+        },
+        "leg": {
+            "pant1": "<path_to_texture>",   
+        },
+        "foot": {
+            "shoe1": "<path_to_texture>",   
+        },
+    },
     "resources": {
         "wood": "<path_to_texture>",
         "stone": "<path_to_texture>"
