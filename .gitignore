@@ -400,3 +400,6 @@ FodyWeavers.xsd
 #OS junk files
 [Tt]humbs.db
 *.DS_Store
+
+# my own unnecessary files
+Docs/fr/.~lock.Planning.ods#
